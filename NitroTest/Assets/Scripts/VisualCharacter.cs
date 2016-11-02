@@ -6,12 +6,14 @@ public class VisualCharacter : MonoBehaviour
 
     // Use this for initialization
     public Character charProperties;
-    private CharacterController CharCont;
+    private CharacterController charCont;
+    public Weapon WeaponOfChar;
+    private NavMeshAgent agent;
     void Start()
     {
-        
-        CharCont = gameObject.AddComponent<CharacterController>();
-
+        WeaponOfChar = new Gun();
+        charCont = GetComponent<CharacterController>();
+        agent = GetComponent<NavMeshAgent>();
 
     }
 
@@ -23,10 +25,14 @@ public class VisualCharacter : MonoBehaviour
 
 
     public void Move(Vector3 moveDirection)
-    { 
-        CharCont.Move(moveDirection* Time.deltaTime);   
-    }
-   
+    {
+        agent.SetDestination(moveDirection);
 
-    
+    }
+
+    public void Shoot(GameObject enemy, float shoot)
+    {
+        WeaponOfChar.ShootBehaviour(enemy, shoot);
+    }
+
 }

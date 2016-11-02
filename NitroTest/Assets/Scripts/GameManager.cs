@@ -4,7 +4,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
     static Inventory InventoryForChar;
-    private CharacterManager CharMan;
+    public CharacterManager CharMan;
 	// Use this for initialization
 	void Start () {
         CharMan = new CharacterManager();
@@ -16,20 +16,22 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 
         CheckForInput();
+        CharMan.Update();
     }
 
     void CheckForInput()
     {
+        float shoot = Input.GetAxis("Fire1");
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-       // Debug.Log(horizontal);
 
-        if(horizontal==0.0f && vertical==0.0f)
-            return;
+        CharMan.updateSelected(horizontal, vertical, shoot);
 
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CharMan.Switch();
+        }
 
-
-        CharMan.updateSelected(horizontal, vertical);
     }
 }

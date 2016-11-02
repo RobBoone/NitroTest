@@ -7,7 +7,7 @@ public class Rifle : Weapon {
     override public int ReloadTime { get; set; }
 
 
-    public void RifleBehaviour()
+    override public void ShootBehaviour(GameObject enemy, float shoot)
     {
 
     }
