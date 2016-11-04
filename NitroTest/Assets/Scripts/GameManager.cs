@@ -3,13 +3,28 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    static Inventory InventoryForChar;
-    public CharacterManager CharMan;
-	// Use this for initialization
-	void Start () {
+    public static Inventory InventoryForChar;
+    public static CharacterManager CharMan;
+    public static UIManager UiMan;
+    // Use this for initialization
+    void Start () {
+        InventoryForChar = new Inventory();
+       
         CharMan = new CharacterManager();
+        UiMan = new UIManager();
+        
 
+        GameManager.InventoryForChar.add(new Rifle());
+        GameManager.InventoryForChar.add(new Gun());
+        GameManager.InventoryForChar.add(new Rifle());
+        GameManager.InventoryForChar.add(new Gun());
+        GameManager.InventoryForChar.add(new Rifle());
+        GameManager.InventoryForChar.add(new Gun());
+        GameManager.InventoryForChar.add(new Rifle());
+        GameManager.InventoryForChar.add(new Gun());
 
+        UiMan.EnableDisableCharPanel();
+        UiMan.EnableDisableInventory();
     }
 	
 	// Update is called once per frame
@@ -31,6 +46,19 @@ public class GameManager : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space))
         {
             CharMan.Switch();
+            
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+
+            UiMan.EnableDisableCharPanel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            UiMan.EnableDisableInventory();
         }
 
     }

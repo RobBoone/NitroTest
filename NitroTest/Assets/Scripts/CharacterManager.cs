@@ -12,6 +12,7 @@ public class CharacterManager
 
     public GameObject SelectedChar;
 
+    private VisualCharacter scriptOfSelectedChar;
     private int selectedCharNumber = 0;
 
     public bool FollowMode = true;
@@ -27,9 +28,11 @@ public class CharacterManager
             }
 
         }
+        
 
         SelectedChar = CharList[selectedCharNumber];
-
+        scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>();
+       
     }
 
     // Update is called once per frame
@@ -58,21 +61,21 @@ public class CharacterManager
 
         Vector3 moveDirection = Vector3.zero;
 
-        VisualCharacter CharScript = SelectedChar.GetComponent<VisualCharacter>();
-
-
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())       //This checks if pointer is hovering over ui element to avoid raycasting when hovering over ui
         {
-            if (hit.transform.CompareTag("Level"))
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
             {
-                if (shoot > 0)
-                    CharScript.Move(hit.point);
-            }
-            else if (hit.transform.CompareTag("Enemy"))
-                CharScript.Shoot(hit.transform.gameObject, shoot);
+                if (hit.transform.CompareTag("Level"))
+                {
+                    if (shoot > 0)
+                        scriptOfSelectedChar.Move(hit.point);
+                }
+                else if (hit.transform.CompareTag("Enemy"))
+                    scriptOfSelectedChar.Shoot(hit.transform.gameObject, shoot);
 
+            }
         }
 
 
@@ -86,6 +89,29 @@ public class CharacterManager
             selectedCharNumber++;
         else
             selectedCharNumber = 0;
+
         SelectedChar = CharList[selectedCharNumber];
+        scriptOfSelectedChar= SelectedChar.GetComponent<VisualCharacter>(); ;
+    }
+
+    public void SwitchByID(int Id)
+    {
+        SelectedChar = CharList[Id];
+        scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>(); ;
+    }
+
+
+    public void ApplyItem(Item item)
+    {
+        if (item.TypeOfItem == Item.ItemType.Weapon)
+            ChangeWeapon(item as Weapon);
+        //else
+  
+    }
+
+    public void ChangeWeapon(Weapon wep)
+    {
+        scriptOfSelectedChar.WeaponOfChar = wep;
+        Debug.Log("wepswitch");
     }
 }

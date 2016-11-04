@@ -4,7 +4,8 @@ using System.Collections;
 
 public class Enhancements : Item {
 
-	enum EnhancementType
+    public ItemType TypeOfItem = ItemType.Enhancements;
+    enum EnhancementType
     {
         Def,
         Att,
@@ -12,4 +13,9 @@ public class Enhancements : Item {
     };
 
     private EnhancementType TypeOfEnhancement;
+
+    Enhancements()
+    {
+        TypeOfItem = ItemType.Enhancements;
+    }
 }

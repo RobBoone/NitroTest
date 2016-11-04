@@ -3,13 +3,13 @@ using System.Collections;
 
 abstract public class Item {
 
-	enum ItemType
+	public enum ItemType
     {
         Enhancements,
         Weapon
     };
 
-    private ItemType TypeOfItem;
+    public ItemType TypeOfItem;
     private int Amount;
 
 
