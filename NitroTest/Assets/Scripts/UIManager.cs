@@ -6,6 +6,7 @@ public class UIManager
 
     public InventoryPanel InvPanel;
     public CharacterPanel CharPanel;
+    public HUD HudPanel;
     // Use this for initialization
     public UIManager()
     {
@@ -16,6 +17,9 @@ public class UIManager
         var charCanvas = GameObject.Instantiate(Resources.Load("Prefabs/InventoryCanvas")) as GameObject;
         CharPanel = charCanvas.AddComponent<CharacterPanel>();
         CharPanel.initialize();
+
+        var HudCanvas = GameObject.Instantiate(Resources.Load("Prefabs/InventoryCanvas")) as GameObject;
+        HudPanel = HudCanvas.AddComponent<HUD>();
     }
 
 

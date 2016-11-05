@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 public class InventoryPanel : SyndicatePanel {
 
-    GameObject invenCanvas;
+    private GameObject invenCanvas;
     private List<GameObject> buttonList;
     private List<Item> itemsForInv;
     override public void initialize()
@@ -35,7 +35,10 @@ public class InventoryPanel : SyndicatePanel {
                     orderHelp++;
                 GameObject Button = GameObject.Instantiate(Resources.Load("Prefabs/Button")) as GameObject;
 
+                if(itemsForInv[i].TypeOfItem==Item.ItemType.Weapon)
                 Button.GetComponentInChildren<Text>().text = itemsForInv[i].ToString();
+                else
+                    Button.GetComponentInChildren<Text>().text = (itemsForInv[i]as Enhancements).TypeOfEnhancement.ToString();
                 Button.transform.SetParent(invenCanvas.transform);
                 Item tempItem = itemsForInv[i];
                 Button.GetComponent<Button>().onClick.AddListener(() => CallOnWeaponChange(tempItem , Button));                        //using itemsForInv[i] instead of temp item gave errors

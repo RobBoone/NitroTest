@@ -5,17 +5,18 @@ using System.Collections;
 public class Enhancements : Item {
 
     public ItemType TypeOfItem = ItemType.Enhancements;
-    enum EnhancementType
+    public enum EnhancementType
     {
         Def,
         Att,
         hp
     };
 
-    private EnhancementType TypeOfEnhancement;
+    public EnhancementType TypeOfEnhancement;
 
-    Enhancements()
+    public Enhancements(EnhancementType typeOfEnhancement)
     {
         TypeOfItem = ItemType.Enhancements;
+        TypeOfEnhancement = typeOfEnhancement;
     }
 }

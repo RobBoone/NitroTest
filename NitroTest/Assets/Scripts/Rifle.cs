@@ -15,7 +15,7 @@ public class Rifle : Weapon {
         Damage =8;
     }
 
-    override public void ShootBehaviour(GameObject enemy, float shoot)
+    override public void ShootBehaviour(GameObject enemy, float shoot, float charDamage)
     {
         if (shoot > 0)
         {

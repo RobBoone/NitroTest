@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour {
 
         GameManager.InventoryForChar.add(new Rifle());
         GameManager.InventoryForChar.add(new Gun());
-        GameManager.InventoryForChar.add(new Rifle());
-        GameManager.InventoryForChar.add(new Gun());
-        GameManager.InventoryForChar.add(new Rifle());
+        GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Att));
+        GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Def));
+        GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.hp));
         GameManager.InventoryForChar.add(new Gun());
         GameManager.InventoryForChar.add(new Rifle());
         GameManager.InventoryForChar.add(new Gun());

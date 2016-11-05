@@ -16,7 +16,7 @@ public class Gun : Weapon {
         Damage = 10;
     }
 
-    override public void ShootBehaviour(GameObject enemy, float shoot)
+    override public void ShootBehaviour(GameObject enemy, float shoot, float charDamage)
     {
 
         if (shoot > 0 && OneShot == false)
@@ -28,7 +28,7 @@ public class Gun : Weapon {
         
         if (OneShot)
         {
-            enemy.GetComponent<VisualCharacter>().charProperties.Hit(Damage);
+            enemy.GetComponent<VisualCharacter>().charProperties.Hit(charDamage);
         }
   
     }

@@ -7,7 +7,7 @@ abstract public class Weapon : Item {
     abstract public int Ammo { get; set; }
     abstract public int ReloadTime { get; set; }
     abstract public int Damage { get; set; }
-    abstract public void ShootBehaviour(GameObject Enemy, float shoot);
+    abstract public void ShootBehaviour(GameObject Enemy, float shoot, float charDamage);
 
     
 

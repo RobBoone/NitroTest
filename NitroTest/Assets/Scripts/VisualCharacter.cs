@@ -25,7 +25,7 @@ public class VisualCharacter : MonoBehaviour
 
     public void Shoot(GameObject enemy, float shoot)
     {
-        WeaponOfChar.ShootBehaviour(enemy, shoot);
+        WeaponOfChar.ShootBehaviour(enemy, shoot, charProperties.Att);
     }
 
 }

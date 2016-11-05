@@ -9,7 +9,7 @@ public class Persuader : Weapon {
 
     public override int Damage{ get; set;}
 
-    override public void ShootBehaviour(GameObject enemy, float shoot)
+    override public void ShootBehaviour(GameObject enemy, float shoot, float charDamage)
     {
 
     }

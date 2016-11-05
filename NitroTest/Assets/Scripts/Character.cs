@@ -4,9 +4,9 @@ using System.Collections;
 public class Character {
 
     //private string Name;
-    private float Hp;
-    private float Att;
-    private float Def;
+    public float Hp;
+    public float Att;
+    public float Def;
 
     private VisualCharacter CharVisualObj;
 
@@ -31,11 +31,21 @@ public class Character {
         Att = amount;
     }
 
-    public float GetHp()
+    public void IncreaseAtt()
     {
-        return Hp;
+        Att += 10;
+    }
+
+    public void IncreaseDef()
+    {
+        Def += 10;
+    }
+
+    public void IncreaseHp()
+    {
+        Hp += 10;
     }
 
 
-   
+
 }

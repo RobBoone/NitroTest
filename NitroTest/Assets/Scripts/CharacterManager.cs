@@ -13,7 +13,7 @@ public class CharacterManager
     public GameObject SelectedChar;
 
     private VisualCharacter scriptOfSelectedChar;
-    private int selectedCharNumber = 0;
+    public int SelectedCharNumber = 0;
 
     public bool FollowMode = true;
     // Use this for initialization
@@ -30,7 +30,7 @@ public class CharacterManager
         }
         
 
-        SelectedChar = CharList[selectedCharNumber];
+        SelectedChar = CharList[SelectedCharNumber];
         scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>();
        
     }
@@ -85,19 +85,22 @@ public class CharacterManager
 
     public void Switch()
     {
-        if (selectedCharNumber < 3)
-            selectedCharNumber++;
+        if (SelectedCharNumber < 3)
+            SelectedCharNumber++;
         else
-            selectedCharNumber = 0;
+            SelectedCharNumber = 0;
 
-        SelectedChar = CharList[selectedCharNumber];
-        scriptOfSelectedChar= SelectedChar.GetComponent<VisualCharacter>(); ;
+        SelectedChar = CharList[SelectedCharNumber];
+        scriptOfSelectedChar= SelectedChar.GetComponent<VisualCharacter>(); 
+        GameManager.UiMan.HudPanel.UpdateText();
     }
 
     public void SwitchByID(int Id)
     {
         SelectedChar = CharList[Id];
-        scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>(); ;
+        SelectedCharNumber = Id;
+        scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>(); 
+        GameManager.UiMan.HudPanel.UpdateText();
     }
 
 
@@ -105,13 +108,43 @@ public class CharacterManager
     {
         if (item.TypeOfItem == Item.ItemType.Weapon)
             ChangeWeapon(item as Weapon);
-        //else
-  
+        else if (item.TypeOfItem == Item.ItemType.Enhancements)
+            ApplyEnhancment(item as Enhancements);
+
+        GameManager.UiMan.CharPanel.Refresh();
     }
 
     public void ChangeWeapon(Weapon wep)
     {
         scriptOfSelectedChar.WeaponOfChar = wep;
         Debug.Log("wepswitch");
+
+        GameManager.UiMan.HudPanel.UpdateText();
+    }
+
+    public void ApplyEnhancment(Enhancements enhancement )
+    {
+        switch(enhancement.TypeOfEnhancement)
+        {
+            case Enhancements.EnhancementType.Att:
+                scriptOfSelectedChar.charProperties.IncreaseAtt();
+                break;
+            case Enhancements.EnhancementType.Def:
+                scriptOfSelectedChar.charProperties.IncreaseDef();
+                break;
+            case Enhancements.EnhancementType.hp:
+                scriptOfSelectedChar.charProperties.IncreaseHp();
+                break;
+        }
+    }
+
+    public void FollowRemainMode()
+    {
+        if (FollowMode)
+            FollowMode = false;
+        else
+            FollowMode = true;
+
+        GameManager.UiMan.HudPanel.UpdateText();
     }
 }

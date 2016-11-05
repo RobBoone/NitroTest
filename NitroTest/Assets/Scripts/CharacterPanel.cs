@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CharacterPanel : SyndicatePanel {
 
 
-    GameObject invenCanvas;
+    private GameObject invenCanvas;
     private List<GameObject> buttonList;
     private List<GameObject> charList;
     override public void initialize()
@@ -46,7 +46,7 @@ public class CharacterPanel : SyndicatePanel {
             for (int i = 0; i < charList.Count; i++)
             {         
 
-                buttonList[i].GetComponentInChildren<Text>().text = "Player " + (i + 1) + "\n" + "HP: " + charList[i].GetComponent<VisualCharacter>().charProperties.GetHp();
+                buttonList[i].GetComponentInChildren<Text>().text = "Player " + (i + 1) + "\n" + "HP: " + charList[i].GetComponent<VisualCharacter>().charProperties.Hp;
             }
         }
 
