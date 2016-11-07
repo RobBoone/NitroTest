@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\CharacterPanel.cs" />
+    <Compile Include="Assets\Scripts\EnemyShootTrigger.cs" />
     <Compile Include="Assets\Scripts\Enhancements.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Gun.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\InventoryPanel.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\ItemDrop.cs" />
     <Compile Include="Assets\Scripts\Persuader.cs" />
     <Compile Include="Assets\Scripts\Rifle.cs" />
     <Compile Include="Assets\Scripts\SyndicatePanel.cs" />

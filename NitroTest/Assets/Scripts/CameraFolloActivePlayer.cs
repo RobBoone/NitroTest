@@ -13,9 +13,12 @@ public class CameraFolloActivePlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Vector3 pos = GameManager.CharMan.SelectedChar.transform.position;
-        Vector3 campos = cam.transform.position;
-        cam.transform.position = new Vector3(pos.x, campos.y, pos.z - 20);
+        if (GameManager.CharMan.SelectedChar != null)
+        {
+            Vector3 pos = GameManager.CharMan.SelectedChar.transform.position;
+            Vector3 campos = cam.transform.position;
+            cam.transform.position = new Vector3(pos.x, campos.y, pos.z - 20);
+        }
 
 	}
 }

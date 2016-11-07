@@ -19,9 +19,9 @@ public class Rifle : Weapon {
     {
         if (shoot > 0)
         {
-            if (timer > 0.2f)
+            if (timer > 0.4f)
             {
-                enemy.GetComponent<VisualCharacter>().charProperties.Hit(Damage);
+                enemy.GetComponent<VisualCharacter>().HitCharacter(charDamage);
                 timer = 0.0f;
             }
 

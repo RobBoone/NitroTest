@@ -28,7 +28,7 @@ public class Gun : Weapon {
         
         if (OneShot)
         {
-            enemy.GetComponent<VisualCharacter>().charProperties.Hit(charDamage);
+            enemy.GetComponent<VisualCharacter>().HitCharacter(charDamage);
         }
   
     }

@@ -40,13 +40,43 @@ public class CharacterPanel : SyndicatePanel {
 
     override public void Refresh()
     {
-       
+
+        //if (charList.Count != 0)
+        //{
+        //    for (int i = 0; i < charList.Count; i++)
+        //    {         
+        //
+        //        buttonList[i].GetComponentInChildren<Text>().text = "Player " + (i + 1) + "\n" + "HP: " + charList[i].GetComponent<VisualCharacter>().charProperties.Hp;
+        //    }
+        //}
+        if (buttonList.Count != 0)
+        {
+            for (int i = 0; i < buttonList.Count; i++)
+            {
+                Destroy(buttonList[i]);
+            }
+            buttonList.Clear();
+        }
+
+        int orderHelp = 0;
         if (charList.Count != 0)
         {
             for (int i = 0; i < charList.Count; i++)
-            {         
+            {
+                if (i != 0 && i % 2 == 0)
+                    orderHelp++;
 
-                buttonList[i].GetComponentInChildren<Text>().text = "Player " + (i + 1) + "\n" + "HP: " + charList[i].GetComponent<VisualCharacter>().charProperties.Hp;
+                GameObject Button = GameObject.Instantiate(Resources.Load("Prefabs/ButtonPlaye")) as GameObject;
+
+                Button.GetComponentInChildren<Text>().text = "Player " + (i + 1) + "\n" + "HP: " + charList[i].GetComponent<VisualCharacter>().charProperties.Hp;
+                Button.transform.SetParent(invenCanvas.transform);
+                int id = i;
+                Button.GetComponent<Button>().onClick.AddListener(() => Switch(id));
+
+                Button.GetComponent<RectTransform>().anchoredPosition = new Vector3(((-(Screen.width / 2) + Button.GetComponent<RectTransform>().rect.width / 2) + i * 50) - (orderHelp * 100), ((Screen.height / 2) - Button.GetComponent<RectTransform>().rect.height / 2) - (Button.GetComponent<RectTransform>().rect.height * orderHelp), 0);
+
+
+                buttonList.Add(Button);
             }
         }
 

@@ -19,9 +19,6 @@ public class GameManager : MonoBehaviour {
         GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Att));
         GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Def));
         GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.hp));
-        GameManager.InventoryForChar.add(new Gun());
-        GameManager.InventoryForChar.add(new Rifle());
-        GameManager.InventoryForChar.add(new Gun());
 
         UiMan.EnableDisableCharPanel();
         UiMan.EnableDisableInventory();
@@ -61,5 +58,30 @@ public class GameManager : MonoBehaviour {
             UiMan.EnableDisableInventory();
         }
 
+    }
+
+
+    static public void PickupItem()
+    {
+        int rand = Random.RandomRange(0, 4);
+        switch (rand)
+        {
+            case 0:
+                GameManager.InventoryForChar.add(new Gun());
+                break;
+            case 1:
+                GameManager.InventoryForChar.add(new Rifle());
+                break;
+            case 2:
+                GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Att));
+                break;
+            case 3:
+                GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.Def));
+                break;
+            case 4:
+                GameManager.InventoryForChar.add(new Enhancements(Enhancements.EnhancementType.hp));
+                break;
+        }
+            
     }
 }

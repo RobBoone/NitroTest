@@ -20,6 +20,12 @@ public class HUD : MonoBehaviour {
         button.GetComponentInChildren<Text>().text = "FollowMode";
         button.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width / 2 - button.GetComponent<RectTransform>().rect.width / 2, Screen.height / 2 - Text.GetComponent<RectTransform>().rect.height - button.GetComponent<RectTransform>().rect.height / 2, 0);
         button.GetComponent<Button>().onClick.AddListener(() => GameManager.CharMan.FollowRemainMode());
+
+        var persuadeButton = GameObject.Instantiate(Resources.Load("Prefabs/FollowRemain")) as GameObject;
+        persuadeButton.transform.SetParent(hudCanvas.transform);
+        persuadeButton.GetComponentInChildren<Text>().text = "Equip Persuade";
+        persuadeButton.GetComponent<RectTransform>().anchoredPosition = new Vector3(Screen.width / 2 - button.GetComponent<RectTransform>().rect.width / 2, Screen.height / 2 - Text.GetComponent<RectTransform>().rect.height - button.GetComponent<RectTransform>().rect.height - button.GetComponent<RectTransform>().rect.height / 2, 0);
+        persuadeButton.GetComponent<Button>().onClick.AddListener(() => GameManager.CharMan.ChangeWeapon(new Persuader()));
     }
 	
 	// Update is called once per frame
