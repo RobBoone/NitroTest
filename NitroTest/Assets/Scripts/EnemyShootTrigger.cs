@@ -3,16 +3,17 @@ using System.Collections;
 
 public class EnemyShootTrigger : MonoBehaviour {
 
-	// Use this for initialization
+	// Script that enemys use to attack characters
 	void OnTriggerStay(Collider other)
     {
-        if (GetComponentInParent<VisualCharacter>().charProperties.SyndicateLevel < 100)
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-            {
+            if (GetComponentInParent<VisualCharacter>().CharProperties.SyndicateLevel < 100)
+             {
+            
                 if (other.GetComponent<VisualCharacter>().WeaponOfChar.GetType().ToString() != "Persuader")
                 {
-                    GetComponentInParent<VisualCharacter>().WeaponOfChar.ShootBehaviour(other.gameObject, 1.0f, transform.parent.GetComponent<VisualCharacter>().charProperties.Att);
+                    GetComponentInParent<VisualCharacter>().WeaponOfChar.ShootBehaviour(other.gameObject, 1.0f, transform.parent.GetComponent<VisualCharacter>().CharProperties.Att);
                 }
             }
         }

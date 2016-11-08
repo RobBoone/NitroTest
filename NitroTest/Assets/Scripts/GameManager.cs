@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
     public static Inventory InventoryForChar;
     public static CharacterManager CharMan;
     public static UIManager UiMan;
+    private int startEnemycount;
+
+    private int killGoals = 3;
+    private int persuadeGoals = 1;
     // Use this for initialization
-    void Start () {
-        InventoryForChar = new Inventory();
-       
+    void Start ()
+    {
+        Time.timeScale = 1;
+        InventoryForChar = new Inventory();      
         CharMan = new CharacterManager();
         UiMan = new UIManager();
         
@@ -22,23 +28,21 @@ public class GameManager : MonoBehaviour {
 
         UiMan.EnableDisableCharPanel();
         UiMan.EnableDisableInventory();
+
+        startEnemycount = CharMan.EnemyList.Count;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
         CheckForInput();
         CharMan.Update();
-    }
+	    CheckObjective();
+	}
 
     void CheckForInput()
     {
         float shoot = Input.GetAxis("Fire1");
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-
-        CharMan.updateSelected(horizontal, vertical, shoot);
+        CharMan.UpdateSelected(shoot);
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -53,6 +57,12 @@ public class GameManager : MonoBehaviour {
             UiMan.EnableDisableCharPanel();
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+
+            RestartLevel();
+        }
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             UiMan.EnableDisableInventory();
@@ -63,7 +73,7 @@ public class GameManager : MonoBehaviour {
 
     static public void PickupItem()
     {
-        int rand = Random.RandomRange(0, 4);
+        int rand = Random.Range(0, 4);
         switch (rand)
         {
             case 0:
@@ -83,5 +93,26 @@ public class GameManager : MonoBehaviour {
                 break;
         }
             
+    }
+
+
+    private void CheckObjective()
+    {
+        if (killGoals <=CharMan.Kills && persuadeGoals <= CharMan.PersuadeList.Count)
+        {
+           var obj= GameObject.Instantiate(Resources.Load("Prefabs/WinCanvas")) as GameObject;
+            Time.timeScale = 0;
+        }
+
+        if (CharMan.CharList.Count==0)
+        {
+            var obj = GameObject.Instantiate(Resources.Load("Prefabs/LoseCanvas")) as GameObject;
+            Time.timeScale = 0;
+        }
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene("Test");
     }
 }

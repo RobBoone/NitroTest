@@ -13,6 +13,8 @@ public class InventoryPanel : SyndicatePanel {
         buttonList = new List<GameObject>();
     }
 
+
+    //Redraw all buttons so when an item is used yhe button goes away and the order is restored
     override public void Refresh()
     {
         if (buttonList.Count != 0)
@@ -34,19 +36,32 @@ public class InventoryPanel : SyndicatePanel {
                 if (i != 0 && i % 4 == 0)
                     orderHelp++;
                 GameObject Button = GameObject.Instantiate(Resources.Load("Prefabs/Button")) as GameObject;
+                if (Button != null)
+                {
+                    if (itemsForInv[i].TypeOfItem == Item.ItemType.Weapon)
+                    {
+                        Button.GetComponentInChildren<Text>().text = itemsForInv[i].ToString();
+                    }
+                    else
+                    {
+                        var enhancements = itemsForInv[i] as Enhancements;
+                        if (enhancements != null)
+                            Button.GetComponentInChildren<Text>().text =enhancements.TypeOfEnhancement.ToString();
+                    }
 
-                if(itemsForInv[i].TypeOfItem==Item.ItemType.Weapon)
-                Button.GetComponentInChildren<Text>().text = itemsForInv[i].ToString();
-                else
-                    Button.GetComponentInChildren<Text>().text = (itemsForInv[i]as Enhancements).TypeOfEnhancement.ToString();
-                Button.transform.SetParent(invenCanvas.transform);
-                Item tempItem = itemsForInv[i];
-                Button.GetComponent<Button>().onClick.AddListener(() => CallOnWeaponChange(tempItem , Button));                        //using itemsForInv[i] instead of temp item gave errors
+                    Button.transform.SetParent(invenCanvas.transform);
+                    Item tempItem = itemsForInv[i];
+                    Button.GetComponent<Button>().onClick.AddListener(() => CallOnWeaponChange(tempItem, Button));
+                        //using itemsForInv[i] instead of temp item gave errors
 
-                Button.GetComponent<RectTransform>().anchoredPosition = new Vector3(((-(Screen.width / 2) + Button.GetComponent<RectTransform>().rect.width / 2) + i * 50)-(orderHelp*200), -(Button.GetComponent<RectTransform>().rect.height / 2) - (orderHelp * 50), 0);
-         
+                    Button.GetComponent<RectTransform>().anchoredPosition =
+                        new Vector3(
+                            ((-(Screen.width/2) + Button.GetComponent<RectTransform>().rect.width/2) + i*50) -
+                            (orderHelp*200), -(Button.GetComponent<RectTransform>().rect.height/2) - (orderHelp*50), 0);
 
-                buttonList.Add(Button);
+
+                    buttonList.Add(Button);
+                }
             }
         }
     }

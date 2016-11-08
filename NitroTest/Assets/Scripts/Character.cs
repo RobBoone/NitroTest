@@ -8,8 +8,7 @@ public class Character {
     public float Att;
     public float Def;
     public float SyndicateLevel;
-    bool syndicateSquad = false;
-    // Use this for initialization
+    private bool syndicateSquad = false;
     public Character(float hp, float att, float def,float synd)
     {
         Hp = hp;
@@ -18,16 +17,17 @@ public class Character {
         SyndicateLevel = synd;
     }
 	
-	// Update is called once per frame
+	//Called when character is shot
 	public void Hit(float amount)
     {
         Hp -= amount - (amount / Def);
         //Debug.Log(Hp);
         if (Hp < 0)
-            GameManager.CharMan.CheckHp();
+            GameManager.CharMan.CheckHp();                          
 
         GameManager.UiMan.CharPanel.Refresh();
     }
+    //Called when character is persuaded
     public void Persuade(float amount)
     {
         if (!syndicateSquad)
@@ -44,21 +44,24 @@ public class Character {
         }
     }
 
+
     public void SetAtt(float amount)
     {
         Att = amount;
     }
 
+
+    //Called when enhancement  is applyed
     public void IncreaseAtt()
     {
         Att += 10;
     }
-
+    //Called when enhancement  is applyed
     public void IncreaseDef()
     {
         Def += 10;
     }
-
+    //Called when enhancement  is applyed
     public void IncreaseHp()
     {
         Hp += 10;

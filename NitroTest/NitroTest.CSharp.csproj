@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\ItemDrop.cs" />
     <Compile Include="Assets\Scripts\Persuader.cs" />
     <Compile Include="Assets\Scripts\Rifle.cs" />
+    <Compile Include="Assets\Scripts\StartLevel.cs" />
     <Compile Include="Assets\Scripts\SyndicatePanel.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\Scripts\VisualCharacter.cs" />

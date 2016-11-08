@@ -12,11 +12,13 @@ public class CharacterManager
 
     public List<GameObject> PersuadeList = new List<GameObject>();
 
-    public GameObject SelectedChar;
+    public List<GameObject> PedestrianList = new List<GameObject>();
 
+    public GameObject SelectedChar;
+    private float timer=0;
     private VisualCharacter scriptOfSelectedChar;
     public int SelectedCharNumber = 0;
-
+    public int Kills = 0;
     public bool FollowMode = true;
     // Use this for initialization
     public CharacterManager()
@@ -30,36 +32,44 @@ public class CharacterManager
             }
 
         }
-        //Random rand = new Random();
+  
         for (int i = 0; i < 8; i++)
         {
-            var obj = GameObject.Instantiate(Resources.Load("Prefabs/EnemyAgent"), randomPosition(), Quaternion.identity) as GameObject;
+            var obj = GameObject.Instantiate(Resources.Load("Prefabs/EnemyAgent"), RandomPosition(25,50), Quaternion.identity) as GameObject;
             EnemyList.Add(obj);
         }
 
+        for (int i = 0; i < 8; i++)
+        {
+            var obj = GameObject.Instantiate(Resources.Load("Prefabs/PedestrianAgent"), RandomPosition(10,50), Quaternion.identity) as GameObject;
+            PedestrianList.Add(obj);
+        }
 
-            SelectedChar = CharList[SelectedCharNumber];
+
+        SelectedChar = CharList[SelectedCharNumber];
         scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>();
        
     }
 
-    // Update is called once per frame
+
     public void Update()
     {
         if (FollowMode)
         {
+            if(CharList.Count!=0)
             LoopAndMove(CharList);
 
             LoopAndMove(PersuadeList);
         }
+
+        PedestrianMove();
+
+
     }
 
-
-    public void updateSelected(float horizontal, float vertical, float shoot)
+    //movement and shooting
+    public void UpdateSelected(float shoot)
     {
-
-
-        Vector3 moveDirection = Vector3.zero;
 
         if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())       //This checks if pointer is hovering over ui element to avoid raycasting when hovering over ui
         {
@@ -83,27 +93,33 @@ public class CharacterManager
 
     }
 
+
+    //switch to next character in charList
     public void Switch()
     {
-        if (SelectedCharNumber < 3)
+        if (SelectedCharNumber < CharList.Count-1)
             SelectedCharNumber++;
         else
             SelectedCharNumber = 0;
-
-        SelectedChar = CharList[SelectedCharNumber];
-        scriptOfSelectedChar= SelectedChar.GetComponent<VisualCharacter>(); 
+            
+            SelectedChar = CharList[SelectedCharNumber];
+            scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>();
         GameManager.UiMan.HudPanel.UpdateText();
     }
 
+    //switch to character by id
     public void SwitchByID(int Id)
     {
-        SelectedChar = CharList[Id];
-        SelectedCharNumber = Id;
-        scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>(); 
+        
+            if(Id<CharList.Count)
+            SelectedChar = CharList[Id];
+            SelectedCharNumber = Id;
+            scriptOfSelectedChar = SelectedChar.GetComponent<VisualCharacter>();
+        
         GameManager.UiMan.HudPanel.UpdateText();
     }
 
-
+    //equip item from inventory
     public void ApplyItem(Item item)
     {
         if (item.TypeOfItem == Item.ItemType.Weapon)
@@ -117,7 +133,6 @@ public class CharacterManager
     public void ChangeWeapon(Weapon wep)
     {
         scriptOfSelectedChar.WeaponOfChar = wep;
-        Debug.Log("wepswitch");
 
         GameManager.UiMan.HudPanel.UpdateText();
     }
@@ -127,17 +142,18 @@ public class CharacterManager
         switch(enhancement.TypeOfEnhancement)
         {
             case Enhancements.EnhancementType.Att:
-                scriptOfSelectedChar.charProperties.IncreaseAtt();
+                scriptOfSelectedChar.CharProperties.IncreaseAtt();
                 break;
             case Enhancements.EnhancementType.Def:
-                scriptOfSelectedChar.charProperties.IncreaseDef();
+                scriptOfSelectedChar.CharProperties.IncreaseDef();
                 break;
             case Enhancements.EnhancementType.hp:
-                scriptOfSelectedChar.charProperties.IncreaseHp();
+                scriptOfSelectedChar.CharProperties.IncreaseHp();
                 break;
         }
     }
 
+   
     public void FollowRemainMode()
     {
         if (FollowMode)
@@ -148,51 +164,59 @@ public class CharacterManager
         GameManager.UiMan.HudPanel.UpdateText();
     }
 
-
+    //Checks if someone died only gets called when someones health goes below 0
     public void CheckHp()
     {
         LoopAndCheckHp(CharList);
-
         LoopAndCheckHp(EnemyList);
         LoopAndCheckHp(PersuadeList);
     }
-
+    //Checks if someone was persuade only called when syndicatelevel is above a hundred
     public void CheckSyndicate()
     {
         LoopAndCheckSyndicate(EnemyList);
     }
 
-    void LoopAndCheckHp(List<GameObject> list)
-    {
-        GameObject tempObj = new GameObject();
-        foreach (var k in list)
-        {           
-            VisualCharacter CharScript = k.GetComponent<VisualCharacter>();
-            if (CharScript.charProperties.Hp < 0)
-            {
-                if (k == SelectedChar)
-                    Switch();
-
-                tempObj = k;
-
-                var obj = GameObject.Instantiate(Resources.Load("Prefabs/ItemDrop"), tempObj.transform.position, Quaternion.identity) as GameObject;
-            }
-        }
-        list.Remove(tempObj);
-        GameObject.Destroy(tempObj);
-
-        GameManager.UiMan.CharPanel.Refresh();
-    }
-
-    void LoopAndCheckSyndicate(List<GameObject> list)
+    private void LoopAndCheckHp(List<GameObject> list)
     {
         if (list.Count != 0)
         {
             GameObject tempObj = new GameObject();
             foreach (var k in list)
             {
-                VisualCharacter CharScript = k.GetComponent<VisualCharacter>();
-                if (CharScript.charProperties.SyndicateLevel > 100)
+                VisualCharacter charScript = k.GetComponent<VisualCharacter>();
+                if (charScript.CharProperties.Hp < 0)
+                {
+                    if (k == SelectedChar&&CharList.Count>1)
+                        Switch();
+
+                    tempObj = k;
+
+                    var obj =
+                        GameObject.Instantiate(Resources.Load("Prefabs/ItemDrop"), tempObj.transform.position,
+                            Quaternion.identity) as GameObject;
+                    break;
+                }
+            }
+            if (tempObj.CompareTag("Enemy"))
+                Kills++;
+            list.Remove(tempObj);
+            GameObject.Destroy(tempObj);
+
+            GameManager.UiMan.CharPanel.Refresh();
+        }
+    }
+
+    private void LoopAndCheckSyndicate(List<GameObject> list)
+    {
+
+        if (list.Count != 0)
+        {
+            GameObject tempObj = new GameObject();
+            foreach (var k in list)
+            {
+                VisualCharacter charScript = k.GetComponent<VisualCharacter>();
+                if (charScript.CharProperties.SyndicateLevel > 100)
                 {
 
                     PersuadeList.Add(k);
@@ -200,27 +224,29 @@ public class CharacterManager
                 }
             }
 
-            if (tempObj != null)
                 list.Remove(tempObj);
         }
 
     }
 
-    void LoopAndMove(List<GameObject> list)
+    private void LoopAndMove(List<GameObject> list)
     {
-        foreach (var k in list)
-        {
-            if (k != SelectedChar)
+        
+            foreach (var k in list)
             {
-                if (Vector3.Distance(k.transform.position, SelectedChar.transform.position) > 2.5f)
+                if(SelectedChar!=null)
+                if (k != SelectedChar)
                 {
-                    k.GetComponent<VisualCharacter>().Move(SelectedChar.transform.position);
+                    if (Vector3.Distance(k.transform.position, SelectedChar.transform.position) > 2.5f)
+                    {
+                        k.GetComponent<VisualCharacter>().Move(SelectedChar.transform.position);
+                    }
                 }
             }
-        }
+        
     }
 
-    Vector3 randomPosition()
+    private Vector3 RandomPosition(int rangeA, int rangeB)
     {
         int a = Random.Range(-1, 2);
         int b = Random.Range(-1, 2);
@@ -230,7 +256,25 @@ public class CharacterManager
         if (b == 0)
             b++;
 
-        return new Vector3(a * Random.Range(25, 50), 5, b * Random.Range(25, 50));
+        return new Vector3(a * Random.Range(rangeA, rangeB), 5, b * Random.Range(rangeA, rangeB));
 
     }
+
+    //Pedestrians walk around in the scene
+    private void PedestrianMove()
+    {
+
+        if (timer > 12)
+        {
+            
+            foreach (var k in PedestrianList)
+            {            
+                    k.GetComponent<VisualCharacter>().Move(RandomPosition(10,60));   
+            }
+            timer = 0;
+        }
+
+        timer += Time.deltaTime;
+    }
+
 }

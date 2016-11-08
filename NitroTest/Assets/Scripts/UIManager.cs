@@ -22,7 +22,7 @@ public class UIManager
         HudPanel = HudCanvas.AddComponent<HUD>();
     }
 
-
+    //Called when I is pressed
     public void EnableDisableInventory()
     {
         if (InvPanel.gameObject.activeSelf)
@@ -33,7 +33,7 @@ public class UIManager
             InvPanel.Refresh();
         }
     }
-
+    //Called when U is pressed
     public void EnableDisableCharPanel()
     {
         if (CharPanel.gameObject.activeSelf)

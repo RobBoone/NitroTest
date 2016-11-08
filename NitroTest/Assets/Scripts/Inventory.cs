@@ -20,7 +20,7 @@ public class Inventory {
     public void Remove(Item k)
     {
         InventoryList.Remove(k);
-        Debug.Log("removed");
+
     }
 
 }

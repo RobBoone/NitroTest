@@ -14,7 +14,7 @@ public class Persuader : Weapon {
     public Persuader()
     {
         TypeOfItem = ItemType.Weapon;
-        Damage = 10;
+        Damage = 25;
     }
     override public void ShootBehaviour(GameObject enemy, float shoot, float charDamage)
     {
@@ -22,7 +22,7 @@ public class Persuader : Weapon {
         {
             if (timer > 0.4f)
             {
-                enemy.GetComponent<VisualCharacter>().charProperties.Persuade(Damage);
+                enemy.GetComponent<VisualCharacter>().PersuadeCharacter(Damage);
                 timer = 0.0f;
             }
 

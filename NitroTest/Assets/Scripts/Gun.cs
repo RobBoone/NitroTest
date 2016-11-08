@@ -8,7 +8,7 @@ public class Gun : Weapon {
     override public int ReloadTime { get; set; }
     override public int Damage { get; set; }
 
-    private bool OneShot = false;
+    private bool oneShot = false;
 
     public Gun()
     {
@@ -19,14 +19,14 @@ public class Gun : Weapon {
     override public void ShootBehaviour(GameObject enemy, float shoot, float charDamage)
     {
 
-        if (shoot > 0 && OneShot == false)
-            OneShot = true;
+        if (shoot > 0 && oneShot == false)
+            oneShot = true;
         else if (shoot == 0)
-            OneShot = false;
+            oneShot = false;
         else
             return;
         
-        if (OneShot)
+        if (oneShot)
         {
             enemy.GetComponent<VisualCharacter>().HitCharacter(charDamage);
         }
